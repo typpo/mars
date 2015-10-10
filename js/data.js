@@ -1,10 +1,10 @@
 window.maps = [
 {
-  path: 'mars_nasa.jpg'
+  path: 'mars_with_water.jpg'
 },
 {
   path: 'mars_nasa.jpg'
-}
+},
 ];
 
 // ------------
