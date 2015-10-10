@@ -16,7 +16,6 @@
     rotation = 80;
 
   var sphereAndPoints = new THREE.Object3D();
-  //var rotationSpeed = 0.0005;
   var rotationSpeed = 0.001;
 
   var scene = new THREE.Scene();
@@ -28,14 +27,10 @@
   renderer.setSize(width, height);
 
   var sunObj;
-  var ambientLight = new THREE.AmbientLight(0x555555);
+  var ambientLight = new THREE.AmbientLight(0x888888);
   var atlasLight = new THREE.AmbientLight(0xffffff);
 
   var btnToggleMap = document.getElementById('btn-toggle-map');
-  var btnPrevElt = document.getElementById('btn-prev');
-  var btnNextElt = document.getElementById('btn-next');
-  var btnPlayElt = document.getElementById('btn-play');
-  var btnPauseElt = document.getElementById('btn-pause');
   var btnRotateElt = document.getElementById('btn-rotate');
   var btnToggleMarkers = document.getElementById('btn-toggle-markers');
   var btnToggleLight = document.getElementById('btn-toggle-light');
@@ -44,58 +39,11 @@
   var showingAtlasView = false;
   var surfaceMarkersHidden = false;
 
+  // Sidebar pictures.
+  var picturesShown = true;
+
   var sphere;
   var mapIndex = maps.length;   // Start at the most recent.
-
-  // Event listeners for prev/next
-  var t = -1;
-  document.addEventListener('keydown', function(e) {
-    var now = new Date().getTime();
-    if (now - t > 150) {
-      // Left and right keys are 37 and 39 respectively, they step through the
-      // select.
-      var select = document.getElementById('years-ago');
-      if (e.keyCode == 37) {
-        step(false);
-      } else if (e.keyCode == 39) {
-        step(true);
-      }
-      t = now;
-    }
-  }, false);
-
-  btnPrevElt.onclick = function() {
-    step(false);
-  };
-  btnNextElt.onclick = function() {
-    step(true);
-  };
-
-  // Play/pause logic
-  var playInterval;
-  btnPlayElt.onclick = function() {
-    if (showingAtlasView) {
-      toggleAtlasView.apply(btnToggleMap);
-    }
-
-    mapIndex = -1;
-    (function play() {
-      if (mapIndex == maps.length - 1) {
-        return;
-      }
-      step(true);
-      btnPlayElt.style.display = 'none';
-      btnPauseElt.style.display = '';
-
-      playInterval = setTimeout(play, 2000);
-    })();
-  };
-
-  btnPauseElt.onclick = function() {
-    clearInterval(playInterval);
-    btnPlayElt.style.display = '';
-    btnPauseElt.style.display = 'none';
-  };
 
   // Rotate logic
   var rotatingFast = false;
@@ -110,6 +58,18 @@
     rotatingFast = !rotatingFast;
   };
 
+  var viewingTopo = true;
+  document.getElementById('btn-toggle-view').onclick = function() {
+    if (viewingTopo) {
+      step(false);
+      this.innerHTML = 'View topographical map';
+    } else {
+      step(true);
+      this.innerHTML = 'View normal map';
+    }
+    viewingTopo = !viewingTopo;
+  };
+
   /*
   webglEl.addEventListener('mousedown', function() {
     rotationSpeed = 0;
@@ -117,27 +77,13 @@
   }, false);
   */
 
-  // Select logic
-  var selectHtml = '';
-  var jumpToElt = document.getElementById('jump-to');
-  for (var i=maps.length-1; i > -1; i--) {
-    var timestep = maps[i];
-    selectHtml += '<option value="' + i + '">' + timestep.date + '</option>';
-  }
-  jumpToElt.value = maps.length - 1;
-  jumpToElt.innerHTML = selectHtml;
-  jumpToElt.onchange = function() {
-    mapIndex = jumpToElt.value - 1;
-    step(true);
-  };
-
-  setupAtlasView();
-
   // Picture sidebar setup.
   setupPictureSidebar();
+  togglePictures();
 
   // Lighting.
-  var lightsOn = false;
+  var lightsOn = true;
+  scene.add(ambientLight);
   btnToggleLight.onclick = function() {
     if (lightsOn) {
       scene.remove(ambientLight);
@@ -152,75 +98,13 @@
   // Sun
   setupSun();
 
-  // Final pluto object
+  step(true);
+
+  // Final ceres object
   scene.add(sphereAndPoints);
 
-  // Initialize the sphere texture.
-  if (window.location.hash == '#atlas') {
-    toggleAtlasView.apply(btnToggleMap);
-  } else {
-    step(false);
-  }
-
-  // Surface makers (must come after Pluto is set up).
+  // Surface makers (must come after main body is set up).
   setupSurfaceMarkers();
-
-  // Atmosphere (must go after Pluto is set up).
-  var customMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-      'c':   { type: 'f', value: 0.35 },
-      'p':   { type: 'f', value: 6 },
-      glowColor: { type: 'c', value: new THREE.Color(0x344152) },
-      viewVector: { type: 'v3', value: camera.position }
-    },
-    vertexShader:   document.getElementById('atmosphere-vertex-shader').textContent,
-    fragmentShader: document.getElementById('atmosphere-fragment-shader').textContent,
-    side: THREE.BackSide,
-    blending: THREE.AdditiveBlending,
-    transparent: true
-  });
-  var atmosphere = new THREE.Mesh(
-    new THREE.SphereGeometry(radius, segments, segments), customMaterial);
-  atmosphere.position.set(sphere.position.x, sphere.position.y, sphere.position.z);
-  atmosphere.scale.multiplyScalar(1.2);
-  scene.add(atmosphere);
-
-  // Other orbits.
-  var charon;
-  var hydra;
-  var charonCalc;
-  var hydraCalc;
-  if (!isMobile()) {
-    var jed = 19084819.551782407;
-    charonCalc = setupCharon();
-    charon = createSphere('charon-bjorn-20150716.png', radius * 1270/2320, segments);
-    var pos = charonCalc.getPosAtTime(jed);
-    charon.position.set(pos[0], pos[1], pos[2]);
-    scene.add(charon);
-
-    hydraCalc = setupHydra();
-    hydra = createSphere(null, radius * 55/2320 * 5, segments);
-    var pos = hydraCalc.getPosAtTime(jed);
-    hydra.position.set(pos[0], pos[1], pos[2]);
-    scene.add(hydra);
-  }
-
-  // Preload textures
-  setTimeout(function preloadTextures() {
-    var preload = [window.atlas_view];
-    preload.push.apply(preload, maps);
-    for (var i=0; i < preload.length; i++) {
-      if (!preload[i].path) continue;
-      var im = new Image();
-      im.src = 'images/' + preload[i].path;
-    }
-  }, 5000);
-
-  /*
-    var clouds = createClouds(radius, segments);
-  clouds.rotation.y = rotation;
-  scene.add(clouds)
- */
 
   // Stars
   var stars = createStars(90, 64);
@@ -241,6 +125,17 @@
     populatePictures();
   }, 2000);
 
+  // Preload textures
+  setTimeout(function preloadTextures() {
+    var preload = [window.atlas_view];
+    preload.push.apply(preload, maps);
+    for (var i=0; i < preload.length; i++) {
+      if (!preload[i].path) continue;
+      var im = new Image();
+      im.src = 'images/' + preload[i].path;
+    }
+  }, 2000);
+
   render();
 
   function render() {
@@ -248,17 +143,6 @@
     if (sphereAndPoints && rotationSpeed) {
       sphereAndPoints.rotation.y += rotationSpeed;
     }
-    if (charon) {
-      jed += 0.002;
-      var pos = charonCalc.getPosAtTime(jed);
-      charon.position.set(pos[0], pos[1], pos[2]);
-    }
-    if (hydra) {
-      jed += 0.002;
-      var pos = hydraCalc.getPosAtTime(jed);
-      hydra.position.set(pos[0], pos[1], pos[2]);
-    }
-    //clouds.rotation.y += 0.0005;
     requestAnimationFrame(render);
     renderer.render(scene, camera);
   }
@@ -275,23 +159,17 @@
     if (texturePath) {
       map = THREE.ImageUtils.loadTexture('images/' + texturePath);
     }
+    var bump = THREE.ImageUtils.loadTexture('images/marsbump1k.jpg');
 
     var mesh = new THREE.Mesh(
       new THREE.SphereGeometry(radius, segments, segments),
       new THREE.MeshPhongMaterial({
-        //map:         THREE.ImageUtils.loadTexture('images/2_no_clouds_4k.jpg'),
         map:         map,
         "color": 0xbbbbbb, "specular": 0x111111, "shininess": 1,
-        /*
-        "color": 0xbbbbbb, "specular": 0x111111, "shininess": 1,
-        bumpMap:     map,
-        bumpScale:   0.02,
-        specularMap: map,
-       */
         //specular:    new THREE.Color('grey')
+        bumpMap:     bump,
+        bumpScale:   0.02,
         /*
-        bumpMap:     THREE.ImageUtils.loadTexture('images/elev_bump_4k.jpg'),
-        bumpScale:   0.005,
         specularMap: THREE.ImageUtils.loadTexture('images/water_4k.png'),
         specular:    new THREE.Color('grey')
         */
@@ -500,33 +378,29 @@
     };
   }
 
+  function togglePictures() {
+    // Keep styles synced in main.css.
+    if (picturesShown) {
+      document.getElementById('left-nav').style.display = 'none';
+      document.getElementById('bottom-left').style.left = '40px';
+      btnTogglePictures.style.left = '0';
+      btnTogglePictures.style.width = '192px';
+    } else {
+      document.getElementById('left-nav').style.display = 'block';
+      document.getElementById('bottom-left').style.left = '240px';
+      btnTogglePictures.style.left = '162px';
+      btnTogglePictures.style.width = '30px';
+    }
+    picturesShown = !picturesShown;
+    btnTogglePictures.innerHTML =
+      picturesShown ? '-' : 'Show NASA pictures &#9660;';
+  }
+
   function setupPictureSidebar() {
-    var picturesShown = true;
-    btnTogglePictures.onclick = function() {
-      // Keep styles synced in main.css.
-      if (picturesShown) {
-        document.getElementById('left-nav').style.display = 'none';
-        document.getElementById('bottom-left').style.left = '40px';
-        btnTogglePictures.style.left = '0';
-        btnTogglePictures.style.width = '192px';
-      } else {
-        document.getElementById('left-nav').style.display = 'block';
-        document.getElementById('bottom-left').style.left = '240px';
-        btnTogglePictures.style.left = '162px';
-        btnTogglePictures.style.width = '30px';
-      }
-      picturesShown = !picturesShown;
-      this.innerHTML = picturesShown ? '-' : 'Show NASA pictures &#9660;';
-    };
+    btnTogglePictures.onclick = togglePictures;
   }
 
   function loadTimestep(timestep) {
-    // Details setup.
-    document.getElementById('mapped-by').innerHTML = timestep.mappedBy;
-    document.getElementById('mapped-when').innerHTML =
-      (isNaN(parseInt(timestep.date[0])) ? 'on' : 'in') + ' ' + timestep.date;
-    document.getElementById('credit').innerHTML = timestep.desc;
-
     // Sphere setup.
     var oldRotation = rotation;
     if (sphere) {
@@ -566,24 +440,8 @@
     mapIndex = Math.min(maps.length - 1, mapIndex);
     mapIndex = Math.max(0, mapIndex);
 
-    document.getElementById('jump-to').value = mapIndex + '';
-
     var timestep = maps[mapIndex];
     loadTimestep(timestep);
-
-    if (mapIndex == maps.length - 1) {
-      btnNextElt.classList.add('inactive');
-      mapIndex = maps.length - 1;
-    } else {
-      btnNextElt.classList.remove('inactive');
-    }
-
-    if (mapIndex == 0) {
-      btnPrevElt.classList.add('inactive');
-      mapIndex = 0;
-    } else {
-      btnPrevElt.classList.remove('inactive');
-    }
 
     clearSelection();   // Sometimes part of the page can be selected on fast click.
   }

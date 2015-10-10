@@ -1,4 +1,4 @@
-# mars
+# Ceres
 
 This is a static repository.  To run, simply open it in your browser.
 
