@@ -11,7 +11,7 @@
     height = window.innerHeight;
 
   // Earth params
-  var radius   = 0.5,
+  var radius = 0.5,
     segments = 32,
     rotation = 80;
 
@@ -167,8 +167,10 @@
         map:         map,
         "color": 0xbbbbbb, "specular": 0x111111, "shininess": 1,
         //specular:    new THREE.Color('grey')
+        /*
         bumpMap:     bump,
         bumpScale:   0.02,
+       */
         /*
         specularMap: THREE.ImageUtils.loadTexture('images/water_4k.png'),
         specular:    new THREE.Color('grey')
