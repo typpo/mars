@@ -258,40 +258,6 @@
     });
   }
 
-  function setupCharon(i) {
-    var orbit = new Orbit3D({
-      a: 19571,
-      e: 0,
-      i: -(90-0.001),
-      p: 6.3872304,
-      //o: 223.046,
-      o: 0,
-      w: 0,
-      ma: 0,
-      epoch: 2452600.5,
-    }, {
-
-    });
-    return orbit;
-  }
-
-  function setupHydra() {
-    var orbit = new Orbit3D({
-      a: 64738,
-      e: 0.005862,
-      i: -(90-0.242),
-      p: 38.20177,
-      //o: 223.046,
-      o: 0,
-      w: 0,
-      ma: 0,
-      epoch: 2452600.5,
-    }, {
-
-    });
-    return orbit;
-  }
-
   function setupSun() {
     var sunlight = new THREE.DirectionalLight(0xffffff, 1);
     var texture = THREE.ImageUtils.loadTexture('images/sunsprite.png');
@@ -346,7 +312,6 @@
   }
 
   function setupSurfaceMarkers() {
-    // Surface markers
     var globeTooltipElt = document.getElementById('globe-tooltip');
     var domEvents = new THREEx.DomEvents(camera, renderer.domElement);
     var markers = [];
