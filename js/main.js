@@ -58,13 +58,13 @@
     rotatingFast = !rotatingFast;
   };
 
-  var viewingTopo = true;
+  var viewingTopo = false;
   document.getElementById('btn-toggle-view').onclick = function() {
     if (viewingTopo) {
-      step(false);
+      step(true);
       this.innerHTML = 'View topographical map';
     } else {
-      step(true);
+      step(false);
       this.innerHTML = 'View normal map';
     }
     viewingTopo = !viewingTopo;
