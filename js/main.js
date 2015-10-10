@@ -178,7 +178,6 @@
     if (texturePath) {
       map = THREE.ImageUtils.loadTexture('images/' + texturePath);
     }
-    var bump = THREE.ImageUtils.loadTexture('images/marsbump1k-corrected.jpg');
 
     var mesh = new THREE.Mesh(
       new THREE.SphereGeometry(radius, segments, segments),
@@ -186,10 +185,9 @@
         map:         map,
         'color': 0xbbbbbb, 'specular': 0x111111, 'shininess': 1,
         //specular:    new THREE.Color('grey')
-        /*
-        bumpMap:     bump,
-        bumpScale:   0.08,
-        */
+        // normalMap: THREE.ImageUtils.loadTexture('images/mars_normal_1k.jpg'),
+        bumpMap: THREE.ImageUtils.loadTexture('images/marsbump1k-corrected.jpg'),
+        bumpScale:   0.02,
         /*
         specularMap: THREE.ImageUtils.loadTexture('images/water_4k.png'),
         specular:    new THREE.Color('grey')
