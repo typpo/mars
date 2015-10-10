@@ -106,6 +106,26 @@
   // Surface makers (must come after main body is set up).
   setupSurfaceMarkers();
 
+  // Atmosphere (must go after Pluto is set up).
+  var customMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      'c':   { type: 'f', value: 0.35 },
+      'p':   { type: 'f', value: 6 },
+      glowColor: { type: 'c', value: new THREE.Color(0x344152) },
+      viewVector: { type: 'v3', value: camera.position }
+    },
+    vertexShader:   document.getElementById('atmosphere-vertex-shader').textContent,
+    fragmentShader: document.getElementById('atmosphere-fragment-shader').textContent,
+    side: THREE.BackSide,
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  });
+  var atmosphere = new THREE.Mesh(
+    new THREE.SphereGeometry(radius, segments, segments), customMaterial);
+  atmosphere.position.set(sphere.position.x, sphere.position.y, sphere.position.z);
+  atmosphere.scale.multiplyScalar(1.2);
+  scene.add(atmosphere);
+
   // Stars
   var stars = createStars(90, 64);
   scene.add(stars);

@@ -21,13 +21,13 @@ window.points = [
   {
     name: 'Curiosity',
     latlng: [-4.5895, 137.4417],
-    desc: 'Mars rover landed in 2012',
+    desc: 'Mars rover touched down near the Gale Crater in 2012.',
     img: 'http://mars.nasa.gov/msl/images/pia16239_c-hpfeat.jpg',
   },
   {
     name: 'Viking 1',
     latlng: [22.697, -48.222],
-    desc: 'Viking 1 touched down in Chryse Planitia in 1976',
+    desc: 'Viking 1 landed in Chryse Planitia in 1976.',
     img: 'http://nssdc.gsfc.nasa.gov/image/planetary/mars/vikinglander1-1.jpg',
   },
 ];
