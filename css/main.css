@@ -1,0 +1,247 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+  font-family: 'proxima-nova',Helvetica,sans-serif;
+}
+.tm  { position: absolute; top: 10px; right: 10px; }
+.webgl-error { font: 15px/30px monospace; text-align: center; color: #fff; margin: 50px; }
+.webgl-error a { color: #fff; }
+.top {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 999998;
+  color: white;
+  line-height: 2.5;
+  text-align: center;
+}
+
+a {
+  color: white;
+}
+
+.top-sub {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  color: #aaa;
+  text-align: center;
+  width: 100%;
+}
+
+.title {
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+.credit {
+  font-size: 12px;
+  color: #aaa;
+}
+
+#bottom-left {
+  position: absolute;
+  bottom: 40px;
+  left: 240px;   /* note: sync in main.js */
+  color: white;
+  padding-right: 40px;
+}
+
+#left-nav {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 200px;
+  background-color: #000;
+  border-right: 1px solid #404040;
+  z-index: 999998;
+  overflow: auto;
+}
+
+.left-nav-image {
+  width: 180px;
+  height: auto;
+  margin-left: 5px;
+}
+
+#btn-toggle-map {
+  border: 1px solid #eee;
+}
+
+#btn-left-nav-toggle {
+  position: absolute;
+  top: 0;
+  /* Keep synced in main.js */
+  left: 162px;
+  width: 30px;
+  height: 20px;
+
+  background-color: #404040;
+  color: #eee;
+  text-align: center;
+  padding-top: 4px;
+
+  cursor: pointer;
+  z-index: 999999;
+}
+
+#btn-left-nav-toggle:hover {
+  background-color: #505050;
+}
+
+#right-view {
+  /* margin-left: 200px; */
+}
+
+#controls {
+  position: absolute;
+  top: 100px;
+  text-align: center;
+  width: 100%;
+}
+
+#instructions {
+  font-size: 12px;
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  color: #eee;
+}
+
+#jump-to-container {
+  font-size: 16px;
+  position: absolute;
+  top: 100px;
+  right: 30px;
+  color: #eee;
+  text-align: right;
+}
+
+#jump-to-container select {
+  font-size: 16px;
+  color: #eee;
+}
+
+#jump-to-container .button {
+  padding: 8px;
+}
+
+#jump-to-container div {
+  margin-top: 30px;
+}
+
+.button {
+  background-color: #202020;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button.arrow {
+  color: #eee;
+  font-size: 40px;
+  padding: 15px;
+}
+
+.button.arrow.inactive {
+  color: #333;
+}
+
+span.button:hover {
+  background-color: #303030;
+}
+
+.social-container {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  font-size: 12px;
+}
+
+ul.share-buttons {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.share-buttons li {
+  display: inline;
+}
+
+ul.share-buttons img {
+  width: 20px;
+  height: auto;
+}
+
+#globe-tooltip {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+
+  width: 300px;
+}
+
+#globe-tooltip span {
+  font-size: 16px;
+  margin-top: -10px;
+ -webkit-text-stroke-width: 0.5px;
+ color: #eee;
+}
+
+#globe-tooltip img {
+  width: 100%;
+  height: auto;
+}
+
+.no_selection {
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+}
+
+@media screen and (max-width: 850px) {
+  .top, .top-sub {
+    font-size: 12px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  #instructions, .social-container, #jump-to-container, #left-nav, #btn-left-nav-toggle {
+    display: none;
+  }
+
+  #bottom-left {
+    left: 40px;   /* note: sync in main.js */
+  }
+}
+
+/** Scrollbar **/
+::-webkit-scrollbar {
+background:transparent;overflow:visible; width:8px;margin-left:2px;}
+::-webkit-scrollbar-thumb {
+background-color:rgba(0,0,0,0.2); /*border:solid #000;*/}
+::-webkit-scrollbar-thumb:hover {
+background:rgba(0,0,0,0.4);}
+::-webkit-scrollbar-thumb:horizontal {
+border-width:4px 6px;min-width:40px;}
+::-webkit-scrollbar-thumb:vertical {
+border-width:6px 4px;min-height:40px;}
+::-webkit-scrollbar-track-piece{background-color: #ddd;}
+::-webkit-scrollbar-corner {
+background:transparent;}
+::-webkit-scrollbar-thumb {
+background-color: #555;}
+::-webkit-scrollbar-thumb:hover {background-color: #333;}
