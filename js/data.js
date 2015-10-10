@@ -33,12 +33,10 @@ window.points = [
 ];
 
 window.pictures = [
-  /*
   {
-    url:"http://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia19312.jpg?itok=c7MCI3AH",
-    caption:"Ceres Seen From NASA's Dawn Spacecraft",
-    desc:"This image of Ceres was taken by NASA's Dawn spacecraft on March 1; on March 6, the mission achieved orbit around the previously unexplored world.",
-    link:"http://www.nasa.gov/content/ceres-seen-from-nasas-dawn-spacecraft"
+    url:"https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/pia19912-main_mcam-sol-1099.jpg?itok=E9iEQ2_0",
+    caption:"Curiosity's Drill Hole and Location are Picture Perfect",
+    desc:"This composite image looking toward the higher regions of Mount Sharp was taken on September 9, 2015, by NASA's Curiosity rover. In the foreground -- about 2 miles (3 kilometers) from the rover -- is a long ridge teeming with hematite, an iron oxide.",
+    link:"https://www.nasa.gov/feature/curiositys-drill-hole-and-location-are-picture-perfect"
   },
-  */
 ];
