@@ -1,6 +1,6 @@
 window.maps = [
 {
-  path: 'mars_with_water.jpg'
+  path: 'mars_topo_map-corrected-small.jpg'
 },
 {
   path: 'mars_nasa.jpg'
