@@ -82,8 +82,7 @@
   togglePictures();
 
   // Lighting.
-  var lightsOn = true;
-  scene.add(ambientLight);
+  var lightsOn = false;
   btnToggleLight.onclick = function() {
     if (lightsOn) {
       scene.remove(ambientLight);
