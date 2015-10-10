@@ -111,7 +111,7 @@
     uniforms: {
       'c':   { type: 'f', value: 0.35 },
       'p':   { type: 'f', value: 6 },
-      glowColor: { type: 'c', value: new THREE.Color(0x344152) },
+      glowColor: { type: 'c', value: new THREE.Color(0x3F454D) },
       viewVector: { type: 'v3', value: camera.position }
     },
     vertexShader:   document.getElementById('atmosphere-vertex-shader').textContent,
