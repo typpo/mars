@@ -184,7 +184,7 @@
       new THREE.SphereGeometry(radius, segments, segments),
       new THREE.MeshPhongMaterial({
         map:         map,
-        "color": 0xbbbbbb, "specular": 0x111111, "shininess": 1,
+        'color': 0xbbbbbb, 'specular': 0x111111, 'shininess': 1,
         //specular:    new THREE.Color('grey')
         /*
         bumpMap:     bump,
