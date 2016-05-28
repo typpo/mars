@@ -106,6 +106,7 @@
   setupSurfaceMarkers();
 
   // Atmosphere (must go after Pluto is set up).
+  /*
   var customMaterial = new THREE.ShaderMaterial({
     uniforms: {
       'c':   { type: 'f', value: 0.35 },
@@ -124,6 +125,7 @@
   atmosphere.position.set(sphere.position.x, sphere.position.y, sphere.position.z);
   atmosphere.scale.multiplyScalar(1.2);
   scene.add(atmosphere);
+  */
 
   // Stars
   var stars = createStars(90, 64);
@@ -195,16 +197,6 @@
       })
     );
     return mesh;
-  }
-
-  function createClouds(radius, segments) {
-    return new THREE.Mesh(
-      new THREE.SphereGeometry(radius + 0.003, segments, segments),
-      new THREE.MeshPhongMaterial({
-        map:         THREE.ImageUtils.loadTexture('images/fair_clouds_4k.png'),
-        transparent: true
-      })
-    );
   }
 
   function createStars(radius, segments) {
